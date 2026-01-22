@@ -1,28 +1,61 @@
-import { useState, useEffect } from "react";
-import Counter from "./components/Counter";
-import Title from "./components/Title";
+import { useState } from "react";
+import TodoList from "./components/TodoList";
 
 function App() {
-  const [count, setCount] = useState(() => {
-    return Number(localStorage.getItem("count")) || 0;
-  });
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
-    localStorage.setItem("count", count);
-  }, [count]);
+  const addTask = () => {
+    if (task.trim() === "") return;
+
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        text: task,
+        completed: false,
+      },
+    ]);
+
+    setTask("");
+  };
+
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    );
+  };
+
+  const removeTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
 
   return (
     <div className="container">
-      <h1>Day 13 – Components & Props</h1>
+      <h1>Day 15 – Mini Challenge</h1>
 
-      <Title text="Reusable Components are 🔥" />
-
-      <Counter
-        count={count}
-        increase={() => setCount(count + 1)}
-        decrease={() => setCount(count - 1)}
-        reset={() => setCount(0)}
+      <input
+        type="text"
+        value={task}
+        placeholder="Add a task"
+        onChange={(e) => setTask(e.target.value)}
       />
+
+      <button onClick={addTask}>Add</button>
+
+      {todos.length === 0 ? (
+        <p>No tasks yet</p>
+      ) : (
+        <TodoList
+          todos={todos}
+          toggleTodo={toggleTodo}
+          removeTodo={removeTodo}
+        />
+      )}
     </div>
   );
 }
