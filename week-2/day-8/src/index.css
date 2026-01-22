@@ -58,6 +58,11 @@ button {
   margin-left: 0.5rem;
   padding: 0.4rem 1rem;
 }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 
 button:hover {
   border-color: #646cff;
