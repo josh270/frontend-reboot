@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import Counter from "./components/Counter";
+import Title from "./components/Title";
 
 function App() {
   const [count, setCount] = useState(() => {
@@ -9,19 +11,18 @@ function App() {
     localStorage.setItem("count", count);
   }, [count]);
 
-  useEffect(() => {
-    console.log("Count changed");
-  }, [count]);
-  
-
   return (
     <div className="container">
-      <h1>Day 12 – useEffect & localStorage</h1>
-      <p>Count: {count}</p>
+      <h1>Day 13 – Components & Props</h1>
 
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-      <button onClick={() => setCount(count - 1)}>Decrease</button>
-      <button onClick={() => setCount(0)}>Reset</button>
+      <Title text="Reusable Components are 🔥" />
+
+      <Counter
+        count={count}
+        increase={() => setCount(count + 1)}
+        decrease={() => setCount(count - 1)}
+        reset={() => setCount(0)}
+      />
     </div>
   );
 }
